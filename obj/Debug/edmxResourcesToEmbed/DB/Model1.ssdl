@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ZeroHungerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="FoodCollection">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FoodType" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Quantity" Type="varchar" MaxLength="50" />
+    <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="AssignedEmployee" Type="int" />
+    <Property Name="RequestedRestaurant" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="NGOAdmin">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="NGOEmployee">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Location" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Restaurant">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Location" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_FoodCollection_NGOEmployee">
+    <End Role="NGOEmployee" Type="Self.NGOEmployee" Multiplicity="0..1" />
+    <End Role="FoodCollection" Type="Self.FoodCollection" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NGOEmployee">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="FoodCollection">
+        <PropertyRef Name="AssignedEmployee" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FoodCollection_Restaurant">
+    <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="1" />
+    <End Role="FoodCollection" Type="Self.FoodCollection" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Restaurant">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="FoodCollection">
+        <PropertyRef Name="RequestedRestaurant" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ZeroHungerModelStoreContainer">
+    <EntitySet Name="FoodCollection" EntityType="Self.FoodCollection" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NGOAdmin" EntityType="Self.NGOAdmin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NGOEmployee" EntityType="Self.NGOEmployee" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Restaurant" EntityType="Self.Restaurant" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_FoodCollection_NGOEmployee" Association="Self.FK_FoodCollection_NGOEmployee">
+      <End Role="NGOEmployee" EntitySet="NGOEmployee" />
+      <End Role="FoodCollection" EntitySet="FoodCollection" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FoodCollection_Restaurant" Association="Self.FK_FoodCollection_Restaurant">
+      <End Role="Restaurant" EntitySet="Restaurant" />
+      <End Role="FoodCollection" EntitySet="FoodCollection" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

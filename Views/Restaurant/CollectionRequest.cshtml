@@ -1,0 +1,46 @@
+﻿@model IEnumerable<ZeroHunger.DB.FoodCollection>
+
+@{
+    ViewBag.Title = "CollectionRequest";
+}
+
+<h2>CollectionRequest</h2>
+@TempData["message"]
+<p>
+    @Html.ActionLink("Create New", "CreateRequest")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FoodType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FoodType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Quantity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+ 
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
+<br />
+<a href="/Restaurant/Dashboard">Back to Dashboard</a>

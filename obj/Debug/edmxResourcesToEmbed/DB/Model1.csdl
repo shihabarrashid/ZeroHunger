@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ZeroHungerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="FoodCollection">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FoodType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Quantity" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="AssignedEmployee" Type="Int32" />
+    <Property Name="RequestedRestaurant" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="NGOEmployee" Relationship="Self.FK_FoodCollection_NGOEmployee" FromRole="FoodCollection" ToRole="NGOEmployee" />
+    <NavigationProperty Name="Restaurant" Relationship="Self.FK_FoodCollection_Restaurant" FromRole="FoodCollection" ToRole="Restaurant" />
+  </EntityType>
+  <EntityType Name="NGOAdmin">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="NGOEmployee">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="FoodCollections" Relationship="Self.FK_FoodCollection_NGOEmployee" FromRole="NGOEmployee" ToRole="FoodCollection" />
+  </EntityType>
+  <EntityType Name="Restaurant">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="FoodCollections" Relationship="Self.FK_FoodCollection_Restaurant" FromRole="Restaurant" ToRole="FoodCollection" />
+  </EntityType>
+  <Association Name="FK_FoodCollection_NGOEmployee">
+    <End Role="NGOEmployee" Type="Self.NGOEmployee" Multiplicity="0..1" />
+    <End Role="FoodCollection" Type="Self.FoodCollection" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NGOEmployee">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="FoodCollection">
+        <PropertyRef Name="AssignedEmployee" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FoodCollection_Restaurant">
+    <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="1" />
+    <End Role="FoodCollection" Type="Self.FoodCollection" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Restaurant">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="FoodCollection">
+        <PropertyRef Name="RequestedRestaurant" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ZeroHungerEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="FoodCollections" EntityType="Self.FoodCollection" />
+    <EntitySet Name="NGOAdmins" EntityType="Self.NGOAdmin" />
+    <EntitySet Name="NGOEmployees" EntityType="Self.NGOEmployee" />
+    <EntitySet Name="Restaurants" EntityType="Self.Restaurant" />
+    <AssociationSet Name="FK_FoodCollection_NGOEmployee" Association="Self.FK_FoodCollection_NGOEmployee">
+      <End Role="NGOEmployee" EntitySet="NGOEmployees" />
+      <End Role="FoodCollection" EntitySet="FoodCollections" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FoodCollection_Restaurant" Association="Self.FK_FoodCollection_Restaurant">
+      <End Role="Restaurant" EntitySet="Restaurants" />
+      <End Role="FoodCollection" EntitySet="FoodCollections" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
